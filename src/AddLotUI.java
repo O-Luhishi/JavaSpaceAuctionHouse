@@ -106,6 +106,11 @@ public class AddLotUI extends JFrame {
 		
 		JButton returnHomeScreenButton = new JButton("Home");
 		returnHomeScreenButton.setBounds(34, 282, 117, 29);
+		returnHomeScreenButton.addActionListener (new java.awt.event.ActionListener () {
+			public void actionPerformed (java.awt.event.ActionEvent evt) {
+				returnToHome();
+			}
+		}  );
 		firstPanel.add(returnHomeScreenButton);
 		
 		JButton addLotButton = new JButton("Add Lot To Auction");
@@ -173,6 +178,11 @@ public class AddLotUI extends JFrame {
 		}  catch ( Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void returnToHome(){
+		dispose();
+		new MenuUI().setVisible(true);
 	}
 	
 	public static void main(String[] args) {

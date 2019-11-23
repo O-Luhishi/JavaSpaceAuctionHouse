@@ -96,7 +96,7 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 		returnHome.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				refreshLot(e);
+				returnHome(e);
 			}
 		});
 		firstPanel.add(returnHome);
@@ -157,8 +157,9 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 		}
 	}
 
-	private void refreshLot(ActionEvent evt){
+	private void returnHome(ActionEvent evt){
 		dispose();
+		new MenuUI().setVisible(true);
 	}
 
 	private void openPurchasingWindow(ActionEvent evt, Integer lotID){
