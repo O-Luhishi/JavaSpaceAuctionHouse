@@ -9,22 +9,26 @@ public class MenuUI extends JFrame{
 
 	private JPanel firstPanel;
 
+	private String userName;
+
 
 	/**
 	 * Create the frame.
 	 */
-	public MenuUI() {
+	public MenuUI(String uname) {
 		space = SpaceUtils.getSpace();
 		if (space == null){
 			System.err.println("Failed to find the javaspace");
 			System.exit(1);
 		}
+		this.userName = uname;
 		setTitle("Menu");
 		initComponents();
 		setVisible(true);
 	}
 	
 	private void initComponents() {
+		setSize(350,450);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 450);
 
@@ -37,11 +41,11 @@ public class MenuUI extends JFrame{
 		
 		JLabel lblNewLabel = new JLabel("Main Menu");
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		lblNewLabel.setBounds(212, 6, 129, 58);
+		lblNewLabel.setBounds(121, 6, 129, 58);
 		firstPanel.add(lblNewLabel);
 		
 		JButton btnSellLot = new JButton("Sell A Lot");
-		btnSellLot.setBounds(331, 91, 159, 64);
+		btnSellLot.setBounds(92, 152, 159, 64);
 		btnSellLot.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -51,7 +55,7 @@ public class MenuUI extends JFrame{
 		firstPanel.add(btnSellLot);
 		
 		JButton btnViewLots = new JButton("View Lots");
-		btnViewLots.setBounds(31, 91, 159, 64);
+		btnViewLots.setBounds(92, 76, 159, 64);
 		btnViewLots.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -60,28 +64,35 @@ public class MenuUI extends JFrame{
 		});
 		firstPanel.add(btnViewLots);
 		
-		JButton btnAdminView = new JButton("Admin View");
-		btnAdminView.setBounds(31, 264, 159, 64);
+		JButton btnAdminView = new JButton("My Lots");
+		btnAdminView.setBounds(92, 240, 159, 64);
 		firstPanel.add(btnAdminView);
 		
 		JButton btnLogout = new JButton("Logout");
-		btnLogout.setBounds(331, 264, 159, 64);
+		btnLogout.setBounds(92, 323, 159, 64);
+		btnLogout.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				logout();
+			}
+		});
 		firstPanel.add(btnLogout);
-		
 	}
 
 	private void openSellLotsUI(){
 		dispose();
-		new AuctionLotsUI().setVisible(true);
+		new AddLotUI(this.userName).setVisible(true);
 	}
 
 	private void openViewLotsUI(){
 		dispose();
-		new AddLotUI().setVisible(true);
+		new AuctionLotsUI(this.userName).setVisible(true);
 	}
-	public static void main(String[] args) {
-		MenuUI mainFrame = new MenuUI();
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setSize(550,450);
+
+	private void logout(){
+		dispose();
+		LoginRegisterUI mainFrame = new LoginRegisterUI();
+		mainFrame.loginUI();
+		mainFrame.setVisible(true);
 	}
 }

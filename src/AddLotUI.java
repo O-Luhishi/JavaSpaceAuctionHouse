@@ -21,18 +21,21 @@ public class AddLotUI extends JFrame {
 	private JTextField lotStartingBidPrice;
 	private JTextField lotDescriptionIn;
 
+	private String userName;
 	/**
 	 * Create the frame.
 	 */
-	public AddLotUI() {
+	public AddLotUI(String username) {
 		space = SpaceUtils.getSpace();
 		if (space == null){
 			System.err.println("Failed to find the javaspace");
 			System.exit(1);
 		}
+		this.userName = username;
 		setTitle("Add Lot");
 		initComponents();
 		setVisible(true);
+		System.out.println(this.userName);
 
 	}
 	
@@ -46,33 +49,36 @@ public class AddLotUI extends JFrame {
 		firstPanel.setBackground(Color.GRAY);
 		getContentPane().add(firstPanel);
 		firstPanel.setLayout(null);
-		
-		JLabel lotNameLabel = new JLabel("Lot Name:");
-		lotNameLabel.setForeground(Color.WHITE);
-		lotNameLabel.setBounds(31, 51, 80, 16);
-		firstPanel.add(lotNameLabel);
-		
-		lotNameIn = new JTextField();
-		lotNameIn.setBounds(204, 46, 176, 26);
-		firstPanel.add(lotNameIn);
-		lotNameIn.setColumns(10);
-		
+
 		JLabel lblTitle = new JLabel("Sell Your Item");
 		lblTitle.setFont(new Font("Helvetica", Font.ITALIC, 15));
 		lblTitle.setForeground(Color.WHITE);
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setBounds(135, 6, 161, 28);
 		firstPanel.add(lblTitle);
-		
+
 		JLabel lotSellerNameLabel = new JLabel("Sellers Name:");
 		lotSellerNameLabel.setForeground(Color.WHITE);
-		lotSellerNameLabel.setBounds(31, 89, 102, 16);
+		lotSellerNameLabel.setBounds(31, 51, 80, 16);
 		firstPanel.add(lotSellerNameLabel);
-		
+
 		lotSellerIn = new JTextField();
 		lotSellerIn.setColumns(10);
-		lotSellerIn.setBounds(204, 84, 176, 26);
+		lotSellerIn.setText(this.userName);
+		lotSellerIn.setEditable(false);
+		lotSellerIn.setBounds(204, 46, 176, 26);
 		firstPanel.add(lotSellerIn);
+		
+		JLabel lotNameLabel = new JLabel("Lot Name:");
+		lotNameLabel.setForeground(Color.WHITE);
+		lotNameLabel.setBounds(31, 89, 102, 16);
+		firstPanel.add(lotNameLabel);
+		
+		lotNameIn = new JTextField();
+		lotNameIn.setBounds(204, 84, 176, 26);
+		firstPanel.add(lotNameIn);
+		lotNameIn.setColumns(10);
+
 		
 		JLabel lotlBuyNowValueLabel = new JLabel("Buy Now Price:");
 		lotlBuyNowValueLabel.setForeground(Color.WHITE);
@@ -131,7 +137,6 @@ public class AddLotUI extends JFrame {
 
 	private void displayAuctionLotUI(){
 		lotNameIn.setText("");
-		lotSellerIn.setText("");
 		lotBuyNowValueIn.setText("");
 		lotStartingBidPrice.setText("");
 		lotDescriptionIn.setText("");
@@ -182,12 +187,9 @@ public class AddLotUI extends JFrame {
 
 	private void returnToHome(){
 		dispose();
-		new MenuUI().setVisible(true);
-	}
-	
-	public static void main(String[] args) {
-		AddLotUI mainFrame = new AddLotUI();
+		MenuUI mainFrame = new MenuUI(userName);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setSize(450,350);
+		mainFrame.setSize(350,450);
 	}
+
 }

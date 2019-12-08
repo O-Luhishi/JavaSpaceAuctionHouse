@@ -1,4 +1,3 @@
-
 import net.jini.core.event.RemoteEvent;
 import net.jini.core.event.RemoteEventListener;
 import net.jini.core.lease.Lease;
@@ -22,6 +21,8 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 	private static final long TWO_SECONDS = 2 * 1000;  // two thousand milliseconds
 	private static final long TWO_MINUTES = 2 * 1000 * 60;
 
+	private String userName;
+
 	private Integer lotNumber;
 
 	private JavaSpace space;
@@ -42,12 +43,13 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 	/**
 	 * Create the frame.
 	 */
-	public AuctionLotsUI() {
+	public AuctionLotsUI(String username) {
 		space = SpaceUtils.getSpace();
 		if (space == null){
 			System.err.println("Failed to find the javaspace");
 			System.exit(1);
 		}
+		this.userName = username;
 		setTitle("Listed Lots");
 		initComponents();
 		setVisible(true);
@@ -159,7 +161,9 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 
 	private void returnHome(ActionEvent evt){
 		dispose();
-		new MenuUI().setVisible(true);
+		MenuUI mainFrame = new MenuUI(this.userName);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setSize(350,450);
 	}
 
 	private void openPurchasingWindow(ActionEvent evt, Integer lotID){
@@ -206,6 +210,16 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 		table.setModel(model);
 		table.setBounds(6, 114, 235, 184);
 		model.alignTable(table);
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 1){
+					JTable selected = (JTable)e.getSource();
+					int index = selected.getSelectedRow();
+					lotNumber = (Integer) model.getValueAt(index, 0);
+					displayLotDetails(lotNumber);
+				}
+			}
+		});
 		System.out.println("Running notify");
 		readLotFromSpace();
 	}
@@ -220,12 +234,6 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static void main(String[] args) {
-		AuctionLotsUI mainFrame = new AuctionLotsUI();
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setSize(550,450);
 	}
 
 }

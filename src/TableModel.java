@@ -1,3 +1,6 @@
+// To manipulate data to and from the JavaSpace into a JTable I have used this example for a Table
+// model class on github: http://github.com/xrezut/Java-TableModel-Example---A-Contacts-App
+
 import java.util.ArrayList;
 import java.util.List;
 

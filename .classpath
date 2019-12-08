@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="/Users/oluhishi/Documents/University/Year_3/Distrubted_Clients_Server_Systems/apache-river-3.0.0/lib/outrigger.jar"/>
 	<classpathentry kind="lib" path="/Users/oluhishi/Documents/University/Year_3/Distrubted_Clients_Server_Systems/apache-river-3.0.0/lib/reggie.jar"/>
 	<classpathentry kind="lib" path="/Users/oluhishi/Documents/University/Year_3/Distrubted_Clients_Server_Systems/apache-river-3.0.0/lib-dl/reggie-dl.jar"/>
+	<classpathentry kind="lib" path="miglayout15-swing.jar" sourcepath="miglayout-src.zip"/>
 	<classpathentry kind="output" path="out/production/JavaSpaceAuctionHouse"/>
 </classpath>
