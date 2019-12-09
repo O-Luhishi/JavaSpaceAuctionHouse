@@ -173,7 +173,7 @@ public class AddLotUI extends JFrame {
 			Integer lotStartingBidPrice = Integer.valueOf(strStartingBidPrice);
 			ArrayList<Integer> starting_bid_price = new ArrayList<>();
 			starting_bid_price.add(lotStartingBidPrice);
-			LotItem newJob = new LotItem(lotNumber, lotBuyNowValue, lotName, lotDescription, lotSeller, starting_bid_price);
+			LotItem newJob = new LotItem(lotNumber, lotBuyNowValue, lotName, lotDescription, lotSeller, starting_bid_price, false);
 			// update the LotIdIncrementor object by incrementing the counter and write it back to the space
 			lotIdObject.incrementLotID();
 			space.write( lotIdObject, null, Lease.FOREVER);

@@ -1,4 +1,7 @@
 import net.jini.core.lease.Lease;
+import net.jini.core.transaction.Transaction;
+import net.jini.core.transaction.TransactionFactory;
+import net.jini.core.transaction.server.TransactionManager;
 import net.jini.space.JavaSpace;
 import sun.security.util.Password;
 
@@ -10,21 +13,35 @@ import javax.swing.*;
 public class LoginRegisterUI extends JFrame{
     private JavaSpace space;
 
+    private static final long TWO_SECONDS = 2 * 1000;  // two thousand milliseconds
+
     private JPanel firstPanel;
     private JTextField registerUsernameTextField, loginUsernameTextField;
     private JPasswordField loginPasswordField, registerPasswordField;
+
+    private TransactionManager transactionManager;
 
 
     /**
      * Create the frame.
      */
     public LoginRegisterUI() {
+
+        if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
+        }
+        // Find the transaction manager on the network
+        transactionManager = SpaceUtils.getManager();
+        if (transactionManager == null) {
+            System.err.println("Failed to find the transaction manager");
+            System.exit(1);
+        }
+
         space = SpaceUtils.getSpace();
         if (space == null){
             System.err.println("Failed to find the javaspace");
             System.exit(1);
         }
-
     }
 
     public void loginUI(){
@@ -137,13 +154,34 @@ public class LoginRegisterUI extends JFrame{
     }
 
     private void registerNewUser(){
-        try{
-            String uname = registerUsernameTextField.getText();
-            String pass = hashPassword(new String(registerPasswordField.getPassword()));
-            LotUser newUser  = new LotUser(uname, pass);
-            space.write(newUser, null, Lease.FOREVER);
-        } catch (Exception e){
-            e.printStackTrace();
+        // Now try to take the object back out of the space, modify it, and write it back again.
+        // All of this IS part of one single transaction, so it all happens or it all rolls back and never happens
+        try {
+            // First we need to create the transaction object
+            Transaction.Created trc = null;
+            try {
+                trc = TransactionFactory.create(transactionManager, TWO_SECONDS);
+            } catch (Exception e) {
+                System.out.println("Could not create transaction " + e);
+            }
+
+            Transaction txn = trc.transaction;
+
+            // Now take the initial object back out of the space...
+            try{
+                String uname = registerUsernameTextField.getText();
+                String pass = hashPassword(new String(registerPasswordField.getPassword()));
+                LotUser newUser  = new LotUser(uname, pass);
+                space.write(newUser, txn, Lease.FOREVER);
+            }catch (Exception e) {
+                System.out.println("Failed to read or write to space " + e);
+                txn.abort();
+                System.exit(1);
+            }
+            // ... and commit the transaction.
+            txn.commit();
+        } catch (Exception e) {
+            System.out.print("Transaction failed " + e);
         }
     }
 
@@ -177,7 +215,7 @@ public class LoginRegisterUI extends JFrame{
         return AES.encrypt(password, secretKey);
     }
 
-    private String unhashPassword(String password){
+    private String decryptPassword(String password){
         final String secretKey = "ssshhhhhhhhhhh!!!!";
         return AES.decrypt(password, password);
     }

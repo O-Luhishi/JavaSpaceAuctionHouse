@@ -66,6 +66,12 @@ public class MenuUI extends JFrame{
 		
 		JButton btnAdminView = new JButton("My Lots");
 		btnAdminView.setBounds(92, 240, 159, 64);
+		btnAdminView.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openMyLotsUI();
+			}
+		});
 		firstPanel.add(btnAdminView);
 		
 		JButton btnLogout = new JButton("Logout");
@@ -87,6 +93,11 @@ public class MenuUI extends JFrame{
 	private void openViewLotsUI(){
 		dispose();
 		new AuctionLotsUI(this.userName).setVisible(true);
+	}
+
+	private void openMyLotsUI(){
+		dispose();
+		new MyLotsUI(this.userName).setVisible(true);
 	}
 
 	private void logout(){

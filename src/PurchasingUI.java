@@ -165,9 +165,12 @@ public class PurchasingUI extends JFrame {
             if (lotItemObject == null) {
                 System.out.print("No Items Found In The Space");
                 outputNoLotFound(lotID);
+            }else{
+                lotItemObject.sold = true;
+                space.write(lotItemObject, null , Lease.FOREVER);
+                successfulBuyMessage(lotItemObject.returnBuyNowValue(), lotItemObject.returnLotName());
+                dispose();
             }
-            successfulBuyMessage(lotItemObject.returnBuyNowValue(), lotItemObject.returnLotName());
-            dispose();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -185,6 +188,7 @@ public class PurchasingUI extends JFrame {
 
             LotItem lotItemTemplate = new LotItem();
             lotItemTemplate.lotNumber = lotID;
+            lotItemTemplate.sold = false;
             LotItem lotItemObject = (LotItem) space.takeIfExists(lotItemTemplate, null, TWO_MINUTES);
 
             if (lotItemObject == null){

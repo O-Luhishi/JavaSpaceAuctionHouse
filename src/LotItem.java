@@ -10,6 +10,8 @@ public class LotItem implements Entry{
     public String lotDescription;
     public String lotSeller;
 
+    public Boolean sold;
+
     public ArrayList <Integer> lotBid;
 
 
@@ -18,13 +20,14 @@ public class LotItem implements Entry{
     }
 
     // Arg Constructor
-    public LotItem(int lot_no, int buyNowValue, String lot_name, String lot_description, String lot_seller, ArrayList<Integer> lot_bid){
+    public LotItem(int lot_no, int buyNowValue, String lot_name, String lot_description, String lot_seller, ArrayList<Integer> lot_bid, boolean sold){
         this.lotNumber = lot_no;
         this.lotName = lot_name;
         this.lotDescription = lot_description;
         this.lotSeller = lot_seller;
         this.lotBid = lot_bid;
         this.lotBuyNowValue = buyNowValue;
+        this.sold = sold;
     }
 
     // Returns all values for LotItemClass
@@ -67,6 +70,10 @@ public class LotItem implements Entry{
     // Return Buy Now Value
     public Integer returnBuyNowValue(){
         return this.lotBuyNowValue;
+    }
+    
+    public Boolean returnItemSoldStatus() {
+    	return this.sold;
     }
 
 }

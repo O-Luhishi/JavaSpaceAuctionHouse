@@ -39,6 +39,8 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 
 	private JTextArea lotItemDisplayList;
 
+	private JButton addBidButton;
+
 
 	/**
 	 * Create the frame.
@@ -82,7 +84,7 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 		lotItemDisplayList.setBounds(269, 75, 275, 347);
 		firstPanel.add(lotItemDisplayList);
 		
-		JButton addBidButton = new JButton("Purchase Item");
+		addBidButton = new JButton("Purchase Item");
 		addBidButton.setBounds(135, 342, 117, 29);
 		addBidButton.setEnabled(false);
 		addBidButton.addActionListener(new ActionListener(){
@@ -138,6 +140,7 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 				for (int i = 0; i < lotIDObject.lotID; i++) {
 					LotItem lotItemTemplate = new LotItem();
 					lotItemTemplate.lotNumber = i;
+					lotItemTemplate.sold = false;
 					LotItem lotItemObject = (LotItem) space.read(lotItemTemplate, null, 100);
 					if (lotItemObject == null) {
 						System.out.println("Nothing In Space");
@@ -145,12 +148,12 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 						int lotNumber = lotItemObject.lotNumber;
 						int lotBuyNowValue = lotItemObject.lotBuyNowValue;
 						String lotName = lotItemObject.lotName;
-
+						boolean sold = lotItemTemplate.sold;
 						String lotDescription = lotItemObject.lotDescription;
 						String lotSeller = lotItemObject.lotSeller;
 						ArrayList<Integer> starting_bid_price = new ArrayList<>();
 						starting_bid_price.add(0);
-						model.addNewLot(lotNumber, lotBuyNowValue, lotName, lotDescription, lotSeller, starting_bid_price);
+						model.addNewLot(lotNumber, lotBuyNowValue, lotName, lotDescription, lotSeller, starting_bid_price, sold);
 					}
 				}
 			}
@@ -168,6 +171,8 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 
 	private void openPurchasingWindow(ActionEvent evt, Integer lotID){
 		new PurchasingUI(lotID).setVisible(true);
+		addBidButton.setEnabled(false);
+		lotItemDisplayList.setText(null);
 	}
 
 	private void displayLotDetails(Integer lotNumber){
@@ -217,6 +222,7 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 					int index = selected.getSelectedRow();
 					lotNumber = (Integer) model.getValueAt(index, 0);
 					displayLotDetails(lotNumber);
+					addBidButton.setEnabled(true);
 				}
 			}
 		});
