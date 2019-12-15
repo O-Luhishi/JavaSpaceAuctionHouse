@@ -3,3 +3,7 @@
 .idea/*
 out/*
 *.zip
+*.jar
+*.iml
+*.all
+jinicl
