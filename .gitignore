@@ -1,5 +1,5 @@
-.classpath
-.project
-.idea/
+*.classpath
+*.project
+.idea/*
 out/*
-miglayout-src.zip
+*.zip
