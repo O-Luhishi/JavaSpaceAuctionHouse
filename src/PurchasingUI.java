@@ -14,14 +14,16 @@ public class PurchasingUI extends JFrame {
     private JTextField lotIDIn, displayHighestLotBidAmount, displayLotBuyNowValue, displayUserAmountValue;
     private JButton buyNowButton, addBidButton;
 
+    private String username;
 
-    public PurchasingUI(Integer lotID) {
+
+    public PurchasingUI(Integer lotID, String userName) {
         space = SpaceUtils.getSpace();
         if (space == null) {
             System.err.println("Failed to find the javaspace");
             System.exit(1);
         }
-
+        this.username = userName;
         initComponents();
         outputLotDetails(lotID);
         pack();
@@ -167,6 +169,8 @@ public class PurchasingUI extends JFrame {
                 outputNoLotFound(lotID);
             }else{
                 lotItemObject.sold = true;
+                lotItemObject.lotBuyer = this.username;
+                lotItemObject.lotFinalPrice = Integer.valueOf(displayLotBuyNowValue.getText());
                 space.write(lotItemObject, null , Lease.FOREVER);
                 successfulBuyMessage(lotItemObject.returnBuyNowValue(), lotItemObject.returnLotName());
                 dispose();
@@ -201,6 +205,8 @@ public class PurchasingUI extends JFrame {
             }else {
                 String itemName = lotItemObject.returnLotName();
                 lotItemObject.addBid(bidValue);
+                lotItemObject.lotFinalPrice = bidValue;
+                lotItemObject.lotBuyer = this.username;
                 successfulBidMessage(bidValue, itemName);
             }
             space.write(lotItemObject, null, Lease.FOREVER);
@@ -209,9 +215,4 @@ public class PurchasingUI extends JFrame {
             e.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
-        new PurchasingUI(0).setVisible(true);
-    }
-
 }

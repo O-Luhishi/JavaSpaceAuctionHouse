@@ -24,6 +24,7 @@ public class MyLotsUI extends JFrame implements RemoteEventListener {
     
     private String userName;
     private Integer lotNumber;
+    private Integer lotFinalPriceValue;
 
     private JPanel firstPanel;
 
@@ -37,6 +38,8 @@ public class MyLotsUI extends JFrame implements RemoteEventListener {
 
 	private JButton btnAcceptBid, btnRemoveLot;
 
+	private Boolean x = true;
+
 
 
     public MyLotsUI(String username){
@@ -46,7 +49,7 @@ public class MyLotsUI extends JFrame implements RemoteEventListener {
             System.exit(1);
         }
         this.userName = username;
-        setTitle("Sellers Page");
+        setTitle("Sellers Page - Logged In As: " + username);
         initComponents();
         setVisible(true);
 		myDefaultExporter = new BasicJeriExporter(TcpServerEndpoint.getInstance(0), new BasicILFactory(), false, true);
@@ -114,7 +117,7 @@ public class MyLotsUI extends JFrame implements RemoteEventListener {
 		firstPanel.add(btnRemoveLot);
 
 		table.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
 				getValuesFromJTable(e);
 			}
 		});
@@ -149,6 +152,7 @@ public class MyLotsUI extends JFrame implements RemoteEventListener {
 				System.out.print("No Items Found In The Space");
 			}else{
 				lotItemObject.sold = true;
+				lotItemObject.lotFinalPrice = lotFinalPriceValue;
 				space.write(lotItemObject, null , Lease.FOREVER);
 				successfulAcceptBidMessage(userName, lotItemObject.returnHighestBidValue(), lotItemObject.returnLotName());
 			}
@@ -212,7 +216,9 @@ public class MyLotsUI extends JFrame implements RemoteEventListener {
 						String lotSeller = lotItemObject.lotSeller;
 						ArrayList<Integer> starting_bid_price = new ArrayList<>();
 						starting_bid_price.add(lotItemObject.returnHighestBidValue());
-						model.addNewLot(lotNumber, lotBuyNowValue, lotName, lotDescription, lotSeller, starting_bid_price, sold);
+						String lotBuyer = null;
+						Integer lotFinalPrice = 0;
+						model.addNewLot(lotNumber, lotBuyNowValue, lotName, lotDescription, lotSeller, starting_bid_price, sold, lotBuyer, lotFinalPrice);
 					}
 				}
 			}
@@ -245,11 +251,14 @@ public class MyLotsUI extends JFrame implements RemoteEventListener {
 			int index = selected.getSelectedRow();
 			Boolean soldStatus = (Boolean) model.getValueAt(index, 4);
 			lotNumber = (Integer) model.getValueAt(index, 0);
+			lotFinalPriceValue = (Integer) model.getValueAt(index, 3);
 			btnRemoveLot.setEnabled(true);
 			if (!soldStatus){
 				btnAcceptBid.setEnabled(true);
+				btnRemoveLot.setEnabled(true);
 			}else{
 				btnAcceptBid.setEnabled(false);
+				btnRemoveLot.setEnabled(false);
 			}
 		}
 	}

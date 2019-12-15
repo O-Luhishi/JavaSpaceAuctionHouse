@@ -6,9 +6,11 @@ public class LotItem implements Entry{
     // Variables
     public Integer lotNumber;
     public Integer lotBuyNowValue;
+    public Integer lotFinalPrice;
     public String lotName;
     public String lotDescription;
     public String lotSeller;
+    public String lotBuyer;
 
     public Boolean sold;
 
@@ -20,7 +22,7 @@ public class LotItem implements Entry{
     }
 
     // Arg Constructor
-    public LotItem(int lot_no, int buyNowValue, String lot_name, String lot_description, String lot_seller, ArrayList<Integer> lot_bid, boolean sold){
+    public LotItem(int lot_no, int buyNowValue, String lot_name, String lot_description, String lot_seller, ArrayList<Integer> lot_bid, boolean sold, String lotBuyer, Integer lotFinalPrice){
         this.lotNumber = lot_no;
         this.lotName = lot_name;
         this.lotDescription = lot_description;
@@ -28,6 +30,8 @@ public class LotItem implements Entry{
         this.lotBid = lot_bid;
         this.lotBuyNowValue = buyNowValue;
         this.sold = sold;
+        this.lotBuyer = lotBuyer;
+        this.lotFinalPrice = lotFinalPrice;
     }
 
     // Returns all values for LotItemClass
@@ -42,9 +46,23 @@ public class LotItem implements Entry{
         return item;
     }
 
+    public String printBuyerItemDetails(){
+        String item;
+        item = "Lot Number: " + this.lotNumber + "\n" +
+                " Name: " + this.lotName + "\n"+
+                " Seller's Name: " + this.lotSeller + "\n" +
+                " Description: " + this.lotDescription + "\n" +
+                " Value: £" + this.lotFinalPrice + "\n";
+        return item;
+    }
+
     // Adds Bid To Array List
     public void addBid(Integer value){
         this.lotBid.add(value);
+    }
+
+    public void addLotFinalPriceValue(Integer lotFinalPrice){
+        this.lotFinalPrice = lotFinalPrice;
     }
 
     // Return Bids Placed On Specific Item
@@ -74,6 +92,18 @@ public class LotItem implements Entry{
     
     public Boolean returnItemSoldStatus() {
     	return this.sold;
+    }
+
+    public String returnSellerName(){
+        return this.lotSeller;
+    }
+
+    public Integer returnFinalPriceValue(){
+        return this.lotFinalPrice;
+    }
+
+    public String returnLotBuyerName(){
+        return this.lotBuyer;
     }
 
 }

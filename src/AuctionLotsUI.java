@@ -52,7 +52,7 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 			System.exit(1);
 		}
 		this.userName = username;
-		setTitle("Listed Lots");
+		setTitle("Listed Lots - Logged In As: " + username);
 		initComponents();
 		setVisible(true);
 		myDefaultExporter = new BasicJeriExporter(TcpServerEndpoint.getInstance(0), new BasicILFactory(), false, true);
@@ -153,7 +153,9 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 						String lotSeller = lotItemObject.lotSeller;
 						ArrayList<Integer> starting_bid_price = new ArrayList<>();
 						starting_bid_price.add(0);
-						model.addNewLot(lotNumber, lotBuyNowValue, lotName, lotDescription, lotSeller, starting_bid_price, sold);
+						String lotBuyer = null;
+						Integer lotFinalPrice = 0;
+						model.addNewLot(lotNumber, lotBuyNowValue, lotName, lotDescription, lotSeller, starting_bid_price, sold, lotBuyer, lotFinalPrice);
 					}
 				}
 			}
@@ -170,7 +172,7 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 	}
 
 	private void openPurchasingWindow(ActionEvent evt, Integer lotID){
-		new PurchasingUI(lotID).setVisible(true);
+		new PurchasingUI(lotID, this.userName).setVisible(true);
 		addBidButton.setEnabled(false);
 		lotItemDisplayList.setText(null);
 	}
@@ -216,7 +218,7 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 		table.setBounds(6, 114, 235, 184);
 		model.alignTable(table);
 		table.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
 				if (e.getClickCount() == 1){
 					JTable selected = (JTable)e.getSource();
 					int index = selected.getSelectedRow();

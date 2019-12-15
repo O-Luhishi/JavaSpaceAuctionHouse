@@ -32,7 +32,7 @@ public class AddLotUI extends JFrame {
 			System.exit(1);
 		}
 		this.userName = username;
-		setTitle("Add Lot");
+		setTitle("Add Lot - Logged In As: " + username);
 		initComponents();
 		setVisible(true);
 		System.out.println(this.userName);
@@ -173,7 +173,10 @@ public class AddLotUI extends JFrame {
 			Integer lotStartingBidPrice = Integer.valueOf(strStartingBidPrice);
 			ArrayList<Integer> starting_bid_price = new ArrayList<>();
 			starting_bid_price.add(lotStartingBidPrice);
-			LotItem newJob = new LotItem(lotNumber, lotBuyNowValue, lotName, lotDescription, lotSeller, starting_bid_price, false);
+			Boolean sold = false;
+			String lotBuyer = null;
+			Integer lotFinalPrice = 0;
+			LotItem newJob = new LotItem(lotNumber, lotBuyNowValue, lotName, lotDescription, lotSeller, starting_bid_price, sold, lotBuyer, lotFinalPrice);
 			// update the LotIdIncrementor object by incrementing the counter and write it back to the space
 			lotIdObject.incrementLotID();
 			space.write( lotIdObject, null, Lease.FOREVER);

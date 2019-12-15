@@ -1,5 +1,5 @@
 // To manipulate data to and from the JavaSpace into a JTable I have used this example for a Table
-// model class on github: http://github.com/xrezut/Java-TableModel-Example---A-Contacts-App
+// model class on Github: http://github.com/xrezut/Java-TableModel-Example---A-Contacts-App
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +9,11 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
-public class TableModel extends AbstractTableModel {
+public class BuyerTableModel extends AbstractTableModel {
 
     private List<LotItem> lotitem;
 
-    public TableModel(List<LotItem> item) {
+    public BuyerTableModel(List<LotItem> item) {
         this.lotitem = new ArrayList<>(item);
     }
 
@@ -24,7 +24,7 @@ public class TableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -38,7 +38,10 @@ public class TableModel extends AbstractTableModel {
                 name = "Name";
                 break;
             case 2:
-                name = "Buy Now Price";
+                name = "Seller Name";
+                break;
+            case 3:
+                name = "Final Price";
                 break;
         }
         return name;
@@ -68,7 +71,10 @@ public class TableModel extends AbstractTableModel {
                 value = item.returnLotName();
                 break;
             case 2:
-                value = item.returnBuyNowValue();
+                value = item.returnSellerName();
+                break;
+            case 3:
+                value = item.returnFinalPriceValue();
                 break;
         }
         return value;

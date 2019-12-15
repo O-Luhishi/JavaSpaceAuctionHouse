@@ -22,7 +22,7 @@ public class MenuUI extends JFrame{
 			System.exit(1);
 		}
 		this.userName = uname;
-		setTitle("Menu");
+		setTitle("Menu - Logged In As: " + uname);
 		initComponents();
 		setVisible(true);
 	}
@@ -45,7 +45,7 @@ public class MenuUI extends JFrame{
 		firstPanel.add(lblNewLabel);
 		
 		JButton btnSellLot = new JButton("Sell A Lot");
-		btnSellLot.setBounds(92, 152, 159, 64);
+		btnSellLot.setBounds(91, 138, 159, 64);
 		btnSellLot.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -55,7 +55,7 @@ public class MenuUI extends JFrame{
 		firstPanel.add(btnSellLot);
 		
 		JButton btnViewLots = new JButton("View Lots");
-		btnViewLots.setBounds(92, 76, 159, 64);
+		btnViewLots.setBounds(92, 62, 159, 64);
 		btnViewLots.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -65,7 +65,7 @@ public class MenuUI extends JFrame{
 		firstPanel.add(btnViewLots);
 		
 		JButton btnAdminView = new JButton("My Lots");
-		btnAdminView.setBounds(92, 240, 159, 64);
+		btnAdminView.setBounds(91, 214, 159, 64);
 		btnAdminView.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -73,9 +73,19 @@ public class MenuUI extends JFrame{
 			}
 		});
 		firstPanel.add(btnAdminView);
-		
+
+		JButton btnMyPurchasesView = new JButton("My Purchases");
+		btnMyPurchasesView.setBounds(91, 290, 159, 64);
+		btnMyPurchasesView.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openMyPurchasesUI();
+			}
+		});
+		firstPanel.add(btnMyPurchasesView);
+
 		JButton btnLogout = new JButton("Logout");
-		btnLogout.setBounds(92, 323, 159, 64);
+		btnLogout.setBounds(91, 358, 159, 64);
 		btnLogout.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -98,6 +108,11 @@ public class MenuUI extends JFrame{
 	private void openMyLotsUI(){
 		dispose();
 		new MyLotsUI(this.userName).setVisible(true);
+	}
+
+	private void openMyPurchasesUI(){
+		dispose();
+		new MyPurchasesUI(this.userName).setVisible(true);
 	}
 
 	private void logout(){

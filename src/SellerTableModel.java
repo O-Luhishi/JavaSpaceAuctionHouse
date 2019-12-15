@@ -91,12 +91,12 @@ public class SellerTableModel extends AbstractTableModel {
         return lotitem.get( row );
     }
 
-    public void addItem(int lot_no, int buyNowValue, String lot_name, String lot_description, String lot_seller, ArrayList<Integer> lot_bid, boolean sold){
-        lotitem.add(new LotItem(lot_no, buyNowValue, lot_name, lot_description, lot_seller, lot_bid, sold));
+    public void addItem(int lot_no, int buyNowValue, String lot_name, String lot_description, String lot_seller, ArrayList<Integer> lot_bid, boolean sold, String buyerName, Integer lotFinalPrice){
+        lotitem.add(new LotItem(lot_no, buyNowValue, lot_name, lot_description, lot_seller, lot_bid, sold, buyerName, lotFinalPrice));
     }
 
-    public void addNewLot(int lot_no, int buyNowValue, String lot_name, String lot_description, String lot_seller, ArrayList<Integer> lot_bid, boolean sold){
-        addItem(lot_no, buyNowValue, lot_name, lot_description, lot_seller, lot_bid, sold);
+    public void addNewLot(int lot_no, int buyNowValue, String lot_name, String lot_description, String lot_seller, ArrayList<Integer> lot_bid, boolean sold, String buyerName, Integer lotFinalPrice){
+        addItem(lot_no, buyNowValue, lot_name, lot_description, lot_seller, lot_bid, sold, buyerName, lotFinalPrice);
         fireTableDataChanged();
     }
 
