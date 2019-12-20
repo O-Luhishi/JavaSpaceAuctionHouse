@@ -36,7 +36,7 @@ public class LotItem implements Entry{
         this.lotFinalPrice = lotFinalPrice;
     }
 
-    // Returns all values for LotItemClass
+    // Returns values in String format for Public Auction Lots UI
     public String printItem(){
         String item;
         item = "Lot Number: " + this.lotNumber + "\n" +
@@ -48,6 +48,7 @@ public class LotItem implements Entry{
         return item;
     }
 
+    // Returns values in String format for Buyer's Bought Item Lots
     public String printBuyerItemDetails(){
         String item;
         item = "Lot Number: " + this.lotNumber + "\n" +
@@ -63,6 +64,7 @@ public class LotItem implements Entry{
         this.lotBid.add(value);
     }
 
+    // Add Final Price Value To Value
     public void addLotFinalPriceValue(Integer lotFinalPrice){
         this.lotFinalPrice = lotFinalPrice;
     }

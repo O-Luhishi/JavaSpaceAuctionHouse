@@ -157,9 +157,8 @@ public class LoginRegisterUI extends JFrame{
         firstPanel.add(registerPasswordField);
     }
 
+    // Takes input from register UI and hashes the password to which it then writes that into a user object within the space
     private void registerNewUser(){
-        // Now try to take the object back out of the space, modify it, and write it back again.
-        // All of this IS part of one single transaction, so it all happens or it all rolls back and never happens
         try {
             // First we need to create the transaction object
             Transaction.Created trc = null;
@@ -189,6 +188,7 @@ public class LoginRegisterUI extends JFrame{
         }
     }
 
+    // Reads users input from login screen hash's password and checks it against the space
     private void login(){
         try{
             String uname = loginUsernameTextField.getText();
@@ -214,11 +214,13 @@ public class LoginRegisterUI extends JFrame{
         JOptionPane.showMessageDialog(null, "Please Check Your Login Credentials Again" , "Incorrect Credentials", JOptionPane.ERROR_MESSAGE);
     }
 
+    // Calls AES class and encrypts a string using a pre-defined secret key
     private String hashPassword(String password){
         final String secretKey = "ssshhhhhhhhhhh!!!!";
         return AES.encrypt(password, secretKey);
     }
 
+    // Function to decrypt a hashed password using a pre-defined secret key
     private String decryptPassword(String password){
         final String secretKey = "ssshhhhhhhhhhh!!!!";
         return AES.decrypt(password, password);

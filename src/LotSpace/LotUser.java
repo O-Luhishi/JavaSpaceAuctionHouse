@@ -11,6 +11,7 @@ public class LotUser implements Entry{
 
     }
 
+    // No arg constructor - class to read and write a user object used for logging in
     public LotUser(String userName, String password){
         this.userName = userName;
         this.hashedPassword = password;

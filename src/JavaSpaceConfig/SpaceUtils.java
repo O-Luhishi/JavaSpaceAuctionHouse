@@ -31,7 +31,7 @@ public class SpaceUtils {
 	}
 
 	public static JavaSpace getSpace() {
-		return getSpace("localhost");
+		return getSpace("waterloo");
 	}
 
 

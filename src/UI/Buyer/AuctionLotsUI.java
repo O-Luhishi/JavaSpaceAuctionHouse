@@ -124,11 +124,13 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1){
-					addBidButton.setEnabled(true);
 					JTable selected = (JTable)e.getSource();
 					int index = selected.getSelectedRow();
 					lotNumber = (Integer) model.getValueAt(index, 0);
 					displayLotDetails(lotNumber);
+					if (checkIfEligibleToBuyOrBid(lotNumber)){
+						addBidButton.setEnabled(true);
+					}
 				}
 			}
 		});
@@ -184,6 +186,7 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 		lotItemDisplayList.setText(null);
 	}
 
+	// Displays the details of a selected item to the user
 	private void displayLotDetails(Integer lotNumber){
 		try{
 			LotItem lotItemTemplate = new LotItem();
@@ -216,6 +219,23 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 		return null;
 	}
 
+	/// Checks to see if current user logged in, is the seller of a selected item
+	private boolean checkIfEligibleToBuyOrBid(Integer lotId){
+		try {
+			LotItem lotItemTemplate = new LotItem();
+			lotItemTemplate.lotNumber = lotId;
+			LotItem lotItemObject = (LotItem) space.readIfExists(lotItemTemplate, null, 100);
+			if(lotItemObject == null) {
+				System.out.println("Null Object");
+			}else{
+				return !this.userName.equals(lotItemObject.returnSellerName());
+			}
+		}catch (Exception e){
+				e.printStackTrace();
+		}
+		return false;
+	}
+
 	public void notify(RemoteEvent remoteEvent){
 		item = new ArrayList<>(25);
 		model = new TableModel(item);
@@ -231,7 +251,9 @@ public class AuctionLotsUI extends JFrame implements RemoteEventListener{
 					int index = selected.getSelectedRow();
 					lotNumber = (Integer) model.getValueAt(index, 0);
 					displayLotDetails(lotNumber);
-					addBidButton.setEnabled(true);
+					if (checkIfEligibleToBuyOrBid(lotNumber)){
+						addBidButton.setEnabled(true);
+					}
 				}
 			}
 		});

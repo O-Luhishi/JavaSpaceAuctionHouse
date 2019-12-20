@@ -126,11 +126,12 @@ public class MyPurchasesUI extends JFrame implements RemoteEventListener {
         mainFrame.setSize(350,450);
     }
 
-
+    // Pop-up window for displaying item details
     private void displayItemDetailsWindow(String itemDetails){
             JOptionPane.showMessageDialog(null, itemDetails, "Item Details", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    // Takes the item selected and reads all the details belonging to that item from the space
     private void viewItemDetails(){
         try{
             LotItem lotItemTemplate = new LotItem();

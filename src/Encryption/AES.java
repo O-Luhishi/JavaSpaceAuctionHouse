@@ -1,4 +1,4 @@
-package Encryption;// A good tutorial on how to implement Encryption.AES encryption in Java: https://howtodoinjava.com/security/java-aes-encryption-example/
+package Encryption;// This was taken form a good tutorial on how to implement Encryption.AES encryption in Java: https://howtodoinjava.com/security/java-aes-encryption-example/
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;

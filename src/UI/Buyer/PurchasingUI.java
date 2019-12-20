@@ -133,6 +133,7 @@ public class PurchasingUI extends JFrame {
 
     }
 
+    // Reads details such as highest current bid & buy now value from space and outputs it
     private void outputLotDetails(Integer lotID) {
         try {
             LotItem lotItemTemplate = new LotItem();
@@ -160,6 +161,7 @@ public class PurchasingUI extends JFrame {
         }
     }
 
+    // Allows a user to buy the item directly by setting the Sold flag to true
     private void buyItemNow(){
         try{
             String strLotID = lotIDIn.getText();
@@ -184,6 +186,7 @@ public class PurchasingUI extends JFrame {
         }
     }
 
+    // Appends bid value to bid array in the item object within the space
     private void addBid(){
         try {
             // Get Values From UI

@@ -132,6 +132,7 @@ public class MyLotsUI extends JFrame implements RemoteEventListener {
 		this.setVisible(true);
     }
 
+    // Returns user to home screen
 	private void returnHome(ActionEvent evt){
 		dispose();
 		MenuUI mainFrame = new MenuUI(this.userName);
@@ -139,16 +140,19 @@ public class MyLotsUI extends JFrame implements RemoteEventListener {
 		mainFrame.setSize(350,450);
 	}
 
+	// Presents a popup window to alert the seller that they accepted the highest bid
 	private void successfulAcceptBidMessage(String username, Integer bid_Value, String item_Name){
 		JOptionPane.showMessageDialog(null, "Congratulations " + username +"! You accepted the highest bid! \n" +
 				"Item Name: " + item_Name + "\n" + "Bid Value: £"+ bid_Value, "Accepted Offer", JOptionPane.INFORMATION_MESSAGE);
 
 	}
 
+	// Presents a popup window to alert the seller that they successfully removed the item from the auction lot
 	private void successfulRemoveLotMessage(String item_Name){
 		JOptionPane.showMessageDialog(null, "You Successfully Removed " + item_Name, "Removed Lot", JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	// Accept the highest bid on a item and turns Sold flag to true
 	private void acceptHighestBid(){
 		try{
 			Integer lotID = lotNumber;
@@ -168,6 +172,7 @@ public class MyLotsUI extends JFrame implements RemoteEventListener {
 		}
 	}
 
+	// Removes the item from the auction lot by taking it out of the space permanently
 	private void deleteLot(){
 		try {
 			Integer lotID = lotNumber;
@@ -252,6 +257,7 @@ public class MyLotsUI extends JFrame implements RemoteEventListener {
 		readLotFromSpace();
 	}
 
+	// Gets the values from the JTable model class
 	private void getValuesFromJTable(MouseEvent e){
 		if (e.getClickCount() == 1){
 			JTable selected = (JTable)e.getSource();

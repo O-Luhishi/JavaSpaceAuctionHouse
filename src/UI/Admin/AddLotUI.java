@@ -129,17 +129,23 @@ public class AddLotUI extends JFrame {
 		addLotButton.setBounds(219, 282, 161, 29);
 		addLotButton.addActionListener (new java.awt.event.ActionListener () {
 			public void actionPerformed (java.awt.event.ActionEvent evt) {
-				addLotToSpace();
+				if (sanitizeUserInput(lotBuyNowValueIn.getText()) && sanitizeUserInput(lotStartingBidPrice.getText())){
+					addLotToSpace();
+				}else{
+					outputWindowIfUserEntryIsNotInt();
+				}
 			}
 		}  );
 		firstPanel.add(addLotButton);
 	}
 
+	// When an Item is placed within the auction lot display this window
 	private void successfulLotItemPlaced(int lotID, String sellerName, String itemName){
 		JOptionPane.showMessageDialog(null, "Congratulations " + sellerName+ "! You Placed The Following Item For Sale: \n" +
 				"Lot ID: " + lotID + "\n" + "Item Name: "+ itemName, "Selling Complete", JOptionPane.INFORMATION_MESSAGE);
 		displayAuctionLotUI();
 	}
+
 
 	private void displayAuctionLotUI(){
 		lotNameIn.setText("");
@@ -148,6 +154,13 @@ public class AddLotUI extends JFrame {
 		lotDescriptionIn.setText("");
 	}
 
+	// Output window for when user input is incorrect
+	private void outputWindowIfUserEntryIsNotInt(){
+		JOptionPane.showMessageDialog(null, "Please Enter A Valid Integer", "Error", JOptionPane.INFORMATION_MESSAGE);
+		displayAuctionLotUI();
+	}
+
+	// Method to create Item Template
 	private LotIdIncrementor readLotIDFromSpace(){
 		try{
 			LotIdIncrementor lotIDTemplate = new LotIdIncrementor();
@@ -163,6 +176,7 @@ public class AddLotUI extends JFrame {
 		return null;
 	}
 
+	// Writes an item into the space takeing input from UI
 	private void addLotToSpace(){
 		try {
 			LotIdIncrementor lotIdTemplate = readLotIDFromSpace();
@@ -194,6 +208,16 @@ public class AddLotUI extends JFrame {
 		}
 	}
 
+	// Sanitises user input for integer values only
+	private boolean sanitizeUserInput(String userInput){
+		for (int i = 0; i < userInput.length(); i++){
+			if (!Character.isDigit(userInput.charAt(i)))
+				return false;
+		}
+		return true;
+	}
+
+	// Returns a user back to the home screen
 	private void returnToHome(){
 		dispose();
 		MenuUI mainFrame = new MenuUI(userName);
